@@ -3,7 +3,7 @@ export interface IElement {
   emoji: string;
 }
 
-export interface IActiveElement extends IElement {
+export interface IPlaygroundElement extends IElement {
   id: string;
   x: number;
   y: number;
