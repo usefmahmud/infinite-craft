@@ -12,7 +12,6 @@ const Sidebar = () => {
             emoji: "🚗",
           }}
         />
-        
       </div>
     </div>
   );

@@ -36,12 +36,12 @@ const PlaygroundElement = ({ element }: PlaygroundElementProps) => {
       {...listeners}
       ref={setDraggableNodeRef}
       style={{
-        transform: CSS.Transform.toString(transform),
+        transform: CSS.Translate.toString(transform),
         position: "absolute",
         width: "fit-content",
         height: "fit-content",
-        x: element.x,
-        y: element.y,
+        left: element.x,
+        top: element.y,
       }}
     >
       <div ref={setDroppableNodeRef}>
