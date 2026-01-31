@@ -84,9 +84,8 @@ const Home = () => {
         active.data.current.element.text,
         over?.data.current.element.text,
       )
-        .then((res) => res.json())
         .then((data) => {
-          
+            console.log(data)
         });
     }
 

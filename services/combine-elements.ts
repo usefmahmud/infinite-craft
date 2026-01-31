@@ -4,5 +4,5 @@ export const combineElements = async (word1: string, word2: string) => {
     headers: {
       "Content-Type": "application/json",
     },
-  });
+  }).then((res) => res.json());
 };
