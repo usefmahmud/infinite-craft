@@ -10,7 +10,9 @@ import {
   DragOverlay,
   DragStartEvent,
 } from "@dnd-kit/core";
+import { randomUUID } from "crypto";
 import { useEffect, useState } from "react";
+import { v4 as uuid4 } from "uuid";
 
 const Home = () => {
   const [mouseCoords, setMouseCoords] = useState<{ x: number; y: number }>({
@@ -19,6 +21,7 @@ const Home = () => {
   });
 
   const [activeElement, setActiveElement] = useState<IElement | null>(null);
+
   const [playgroundElements, setPlaygroundElements] = useState<
     IPlaygroundElement[]
   >([
@@ -28,6 +31,28 @@ const Home = () => {
       emoji: "🧑",
       x: 0,
       y: 0,
+    },
+    {
+      id: "2",
+      text: "Woman",
+      emoji: "👩",
+      x: 100,
+      y: 0,
+    },
+  ]);
+
+  const [sidebarElements, setSidebarElements] = useState<IElement[]>([
+    {
+      text: "Car",
+      emoji: "🚗",
+    },
+    {
+      text: "Bike",
+      emoji: "🚲",
+    },
+    {
+      text: "Airplane",
+      emoji: "✈️",
     },
   ]);
 
@@ -44,19 +69,43 @@ const Home = () => {
   const handleDragStart = (e: DragStartEvent) => {};
 
   const handleDragEnd = (e: DragEndEvent) => {
-    const { active } = e;
+    const { active, over } = e;
 
-    if (active.data.current?.type === "playground-element") {
-      const element = active.data.current?.element as IPlaygroundElement;
-      setPlaygroundElements((elements) =>
-        elements.map((el) => {
-          if (el.id === element.id) {
-            el.x = mouseCoords.x;
-            el.y = mouseCoords.y;
-          }
+    // combining playground elements
+    if (
+      active.data.current?.type === "playground-element" &&
+      over?.data.current?.type === "playground-element"
+    ) {
+      console.log(active.data.current, over.data.current);
+    }
 
-          return el;
-        }),
+    // adding new element from sidebar to playground
+    if (
+      active.data.current?.type === "sidebar-element" &&
+      over?.data.current?.type === "playground"
+    ) {
+      const element = active.data.current.element as IElement;
+      const newPlaygroundElement: IPlaygroundElement = {
+        ...element,
+        id: uuid4(),
+        x: mouseCoords.x,
+        y: mouseCoords.y,
+      };
+      setPlaygroundElements((prev) => [...prev, newPlaygroundElement]);
+    }
+
+    // moving existing playground element
+    if (
+      active.data.current?.type === "playground-element" &&
+      over?.data.current?.type === "playground"
+    ) {
+      const elementId = active.id;
+      setPlaygroundElements((prev) =>
+        prev.map((el) =>
+          el.id === elementId
+            ? { ...el, x: mouseCoords.x, y: mouseCoords.y }
+            : el,
+        ),
       );
     }
 
@@ -73,7 +122,7 @@ const Home = () => {
         <main className="flex-1">
           <Playground elements={playgroundElements} />
         </main>
-        <Sidebar />
+        <Sidebar elements={sidebarElements} />
       </div>
     </DndContext>
   );
