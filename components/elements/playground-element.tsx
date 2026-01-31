@@ -14,6 +14,7 @@ const PlaygroundElement = ({ element }: PlaygroundElementProps) => {
     listeners,
     transform,
     setNodeRef: setDraggableNodeRef,
+    isDragging
   } = useDraggable({
     id: element.id,
     data: {
@@ -42,6 +43,7 @@ const PlaygroundElement = ({ element }: PlaygroundElementProps) => {
         height: "fit-content",
         left: element.x,
         top: element.y,
+        zIndex: isDragging ? 1000 : "auto",
       }}
     >
       <div ref={setDroppableNodeRef}>

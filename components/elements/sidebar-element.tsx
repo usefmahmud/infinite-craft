@@ -9,7 +9,7 @@ interface SidebarElementProps {
 }
 
 const SidebarElement = ({ element }: SidebarElementProps) => {
-  const { attributes, listeners, setNodeRef, transform } = useDraggable({
+  const { attributes, listeners, setNodeRef, transform, isDragging } = useDraggable({
     id: element.text,
     data: {
       type: "sidebar-element",
@@ -24,6 +24,7 @@ const SidebarElement = ({ element }: SidebarElementProps) => {
       {...listeners}
       style={{
         transform: CSS.Translate.toString(transform),
+        zIndex: isDragging ? 1000 : "auto",
       }}
     >
       <Element element={element} />
