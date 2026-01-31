@@ -25,22 +25,7 @@ const Home = () => {
 
   const [playgroundElements, setPlaygroundElements] = useState<
     IPlaygroundElement[]
-  >([
-    {
-      id: "1",
-      text: "Man",
-      emoji: "🧑",
-      x: 0,
-      y: 0,
-    },
-    {
-      id: "2",
-      text: "Woman",
-      emoji: "👩",
-      x: 100,
-      y: 0,
-    },
-  ]);
+  >([]);
 
   const [sidebarElements, setSidebarElements] = useState<IElement[]>([
     {
@@ -83,10 +68,30 @@ const Home = () => {
       combineElements(
         active.data.current.element.text,
         over?.data.current.element.text,
-      )
-        .then((data) => {
-            console.log(data)
-        });
+      ).then((data) => {
+        const element1 = active.data.current?.element as IPlaygroundElement;
+        const element2 = over?.data.current?.element as IPlaygroundElement;
+
+        const newElement: IPlaygroundElement = {
+          id: uuid4(),
+          text: data.text,
+          emoji: data.emoji,
+          x: element2.x,
+          y: element2.y,
+        };
+
+        setPlaygroundElements((prev) => [
+          ...prev.filter(
+            (el) => el.id !== element2.id && el.id !== element1.id,
+          ),
+          newElement,
+        ]);
+
+        setSidebarElements((prev) => [
+          ...prev,
+          { text: data.text, emoji: data.emoji },
+        ]);
+      });
     }
 
     // adding new element from sidebar to playground
