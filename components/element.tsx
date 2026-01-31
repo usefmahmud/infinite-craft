@@ -7,13 +7,6 @@ interface ElementProps {
 }
 
 const Element = ({ element }: ElementProps) => {
-  const {} = useDraggable({
-    id: element.text,
-    data: {
-      type: "element",
-      element,
-    },
-  });
   return (
     <div className="flex p-1 rounded-md border px-2 items-center bg-background select-none gap-1 w-fit h-fit cursor-pointer">
       <div>{element.emoji}</div>
