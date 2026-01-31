@@ -2,10 +2,28 @@ import { NextRequest, NextResponse } from "next/server";
 import { generateText, Output } from "ai";
 import { createGroq } from "@ai-sdk/groq";
 import { z } from "zod";
+import mongoose from "mongoose";
+import { ElementModel } from "@/models/Element.model";
 
 export async function GET(request: NextRequest) {
-  const word1 = request.nextUrl.searchParams.get("word1") || "";
-  const word2 = request.nextUrl.searchParams.get("word2") || "";
+  let word1 = request.nextUrl.searchParams.get("word1") || "";
+  let word2 = request.nextUrl.searchParams.get("word2") || "";
+
+  [word1, word2] = [word1, word2].sort().map((w) => w.toLowerCase());
+
+  await connectDB();
+
+  const existingElement = await ElementModel.findOne({
+    word1,
+    word2,
+  });
+
+  if (existingElement) {
+    return NextResponse.json({
+      text: existingElement.resultText,
+      emoji: existingElement.resultEmoji,
+    });
+  }
 
   const groq = await createGroq({
     apiKey: process.env.API_KEY,
@@ -49,5 +67,30 @@ export async function GET(request: NextRequest) {
     prompt: `word1: ${word1}, word2: ${word2}`,
   });
 
+  const resultWord = result.output.text;
+  const existingResult = await ElementModel.findOne({
+    word1,
+    word2,
+    resultText: resultWord,
+  });
+
+  if (!existingResult) {
+    const newElement = new ElementModel({
+      word1,
+      word2,
+      resultText: result.output.text,
+      resultEmoji: result.output.emoji,
+    });
+    await newElement.save();
+  }
+
   return NextResponse.json(result.output);
 }
+
+const connectDB = async () => {
+  if (!process.env.DATABASE_URI) {
+    throw new Error("DATABASE_URI is not defined in environment variables");
+  }
+
+  await mongoose.connect(process.env.DATABASE_URI);
+};
