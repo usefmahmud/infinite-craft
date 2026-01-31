@@ -109,6 +109,15 @@ const Home = () => {
       );
     }
 
+    // moving playground element to sidebar (deleting it)
+    if (
+      active.data.current?.type === "playground-element" &&
+      over?.data.current?.type === "sidebar"
+    ) {
+      const elementId = active.id;
+      setPlaygroundElements((prev) => prev.filter((el) => el.id !== elementId));
+    }
+
     setActiveElement(null);
   };
 
