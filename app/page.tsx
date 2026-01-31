@@ -1,8 +1,8 @@
 "use client";
 
-import Element from "@/components/element";
-import Playground from "@/components/playground";
-import Sidebar from "@/components/sidebar";
+import Element from "@/components/elements/element";
+import Playground from "@/components/areas/playground";
+import Sidebar from "@/components/areas/sidebar";
 import { IElement, IPlaygroundElement } from "@/types/element";
 import {
   DndContext,

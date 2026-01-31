@@ -1,6 +1,6 @@
 import React from "react";
-import Element from "./element";
-import SidebarElement from "./sidebar-element";
+import Element from "../elements/element";
+import SidebarElement from "../elements/sidebar-element";
 import { useDroppable } from "@dnd-kit/core";
 import { IElement } from "@/types/element";
 

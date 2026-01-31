@@ -1,6 +1,6 @@
 import { IPlaygroundElement } from "@/types/element";
 import React from "react";
-import PlaygroundElement from "./playground-element";
+import PlaygroundElement from "../elements/playground-element";
 import { useDroppable } from "@dnd-kit/core";
 
 interface PlaygroundProps {
