@@ -15,7 +15,7 @@ const PlaygroundElement = ({ element }: PlaygroundElementProps) => {
     transform,
     setNodeRef: setDraggableNodeRef,
   } = useDraggable({
-    id: element.text,
+    id: element.id,
     data: {
       type: "playground-element",
       element,
@@ -23,7 +23,7 @@ const PlaygroundElement = ({ element }: PlaygroundElementProps) => {
   });
 
   const { setNodeRef: setDroppableNodeRef } = useDroppable({
-    id: element.text,
+    id: element.id,
     data: {
       type: "playground-element",
       element,
