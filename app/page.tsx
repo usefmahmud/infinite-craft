@@ -71,10 +71,12 @@ const Home = () => {
   const handleDragEnd = (e: DragEndEvent) => {
     const { active, over } = e;
 
-    // combining playground elements
+    // combining playground elements or sidebar element to playground element
     if (
-      active.data.current?.type === "playground-element" &&
-      over?.data.current?.type === "playground-element"
+      (active.data.current?.type === "playground-element" &&
+        over?.data.current?.type === "playground-element") ||
+      (active.data.current?.type === "sidebar-element" &&
+        over?.data.current?.type === "playground-element")
     ) {
       console.log(active.data.current, over.data.current);
     }
