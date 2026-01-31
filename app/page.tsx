@@ -13,6 +13,7 @@ import {
 import { randomUUID } from "crypto";
 import { useEffect, useState } from "react";
 import { v4 as uuid4 } from "uuid";
+import { combineElements } from "@/services/combine-elements";
 
 const Home = () => {
   const [mouseCoords, setMouseCoords] = useState<{ x: number; y: number }>({
@@ -79,6 +80,14 @@ const Home = () => {
         over?.data.current?.type === "playground-element")
     ) {
       console.log(active.data.current, over.data.current);
+      combineElements(
+        active.data.current.element.text,
+        over?.data.current.element.text,
+      )
+        .then((res) => res.json())
+        .then((data) => {
+          
+        });
     }
 
     // adding new element from sidebar to playground
