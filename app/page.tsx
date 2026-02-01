@@ -29,17 +29,21 @@ const Home = () => {
 
   const [sidebarElements, setSidebarElements] = useState<IElement[]>([
     {
-      text: "Car",
-      emoji: "🚗",
+      text: "Water",
+      emoji: "💧",
     },
     {
-      text: "Bike",
-      emoji: "🚲",
+      text: "Fire",
+      emoji: "🔥",
     },
     {
-      text: "Airplane",
-      emoji: "✈️",
+      text: "Wind",
+      emoji: "💨",
     },
+    {
+      text: "Earth",
+      emoji: "🌍",
+    }
   ]);
 
   useEffect(() => {
